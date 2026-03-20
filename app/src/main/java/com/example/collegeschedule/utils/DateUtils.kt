@@ -8,7 +8,6 @@ fun getWeekDateRange(): Pair<String, String> {
     val today = LocalDate.now()
     val formatter = DateTimeFormatter.ISO_DATE
 
-    // Если сегодня воскресенье — стартуем с понедельника
     var start = if (today.dayOfWeek == DayOfWeek.SUNDAY) {
         today.plusDays(1)
     } else {
@@ -18,7 +17,6 @@ fun getWeekDateRange(): Pair<String, String> {
     var daysAdded = 0
     var end = start
 
-    // Нужно получить ровно 6 учебных дней (ПН–СБ)
     while (daysAdded < 5) {
         end = end.plusDays(1)
         if (end.dayOfWeek != DayOfWeek.SUNDAY) {

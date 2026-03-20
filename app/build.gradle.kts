@@ -5,11 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.collegeschedule"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.collegeschedule"
@@ -56,8 +52,17 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    // Retrofit для сетевых запросов
     implementation("com.squareup.retrofit2:retrofit:2.12.0")
     implementation("com.squareup.retrofit2:converter-gson:2.12.0")
+
+    // ViewModel для Compose
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
+
+    // Корутины для асинхронных операций
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
+
+    // Material Icons Extended (для иконок в навигации)
+    implementation("androidx.compose.material:material-icons-extended:1.7.6")
 }

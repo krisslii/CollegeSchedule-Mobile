@@ -84,5 +84,5 @@ enum class AppDestinations(
 ) {
     HOME("Home", Icons.Default.Home),
     FAVORITES("Favorites", Icons.Default.Favorite),
-    PROFILE("Profile", Icons.Default.AccountBox),
+    PROFILE("Profile", Icons.Default.AccountBox)
 }

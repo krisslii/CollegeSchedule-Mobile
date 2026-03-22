@@ -28,17 +28,27 @@ class ScheduleViewModel(private val repository: ScheduleRepository) : ViewModel(
             _error.value = null
 
             try {
+                // Загружаем расписание на МЕСЯЦ вперед
                 val calendar = Calendar.getInstance()
-                val startFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val start = startFormatter.format(calendar.time)
+                val formatter = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
-                calendar.add(Calendar.WEEK_OF_YEAR, 4)
-                val end = startFormatter.format(calendar.time)
+                val start = formatter.format(calendar.time) // Сегодня
+
+                calendar.add(Calendar.MONTH, 1) // + 1 месяц
+                val end = formatter.format(calendar.time)
+
+                println("Загрузка расписания для группы: $groupName")
+                println("Период: $start - $end")
 
                 val scheduleData = repository.loadSchedule(groupName, start, end)
+
+                println("Получено записей: ${scheduleData.size}")
+
                 _schedule.value = scheduleData
             } catch (e: Exception) {
-                _error.value = e.message ?: "Ошибка загрузки расписания"
+                println("Ошибка загрузки: ${e.message}")
+                e.printStackTrace()
+                _error.value = "Ошибка: ${e.message ?: "Не удалось загрузить расписание"}"
             } finally {
                 _isLoading.value = false
             }

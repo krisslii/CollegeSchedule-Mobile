@@ -18,6 +18,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.compose.runtime.LaunchedEffect
 import com.example.collegeschedule.data.local.AppDatabase
 import com.example.collegeschedule.data.network.RetrofitInstance
 import com.example.collegeschedule.data.repository.FavoriteRepository
@@ -39,7 +40,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Инициализация репозиториев
         scheduleRepository = ScheduleRepository(RetrofitInstance.api)
         favoriteRepository = FavoriteRepository(AppDatabase.getDatabase(application).favoriteDao())
 
@@ -66,7 +66,6 @@ fun MainApp(
 ) {
     val navController = rememberNavController()
 
-    // ViewModel
     val scheduleViewModel: ScheduleViewModel = viewModel {
         ScheduleViewModel(scheduleRepository)
     }
@@ -79,8 +78,12 @@ fun MainApp(
         FavoritesViewModel(favoriteRepository)
     }
 
-    // Текущая выбранная группа
     var currentGroup by remember { mutableStateOf<String?>(null) }
+
+    // Загружаем группы при запуске
+    LaunchedEffect(Unit) {
+        groupViewModel.loadGroups()
+    }
 
     Scaffold(
         bottomBar = {
